@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+
+  postgres:
+    image: postgres:15
+    container_name: postgres-1
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: airflow
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  mongo:
+    image: mongo
+    container_name: mongo-1
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+
+  jupyter:
+    image: jupyter/scipy-notebook
+    container_name: jupyter-1
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+
+  superset:
+    image: apache/superset
+    container_name: superset-1
+    ports:
+      - "8088:8088"
+    environment:
+      SUPERSET_SECRET_KEY: "superset_secret"
+    volumes:
+      - ./superset:/app/superset_home
+    depends_on:
+      - postgres
+
+  airflow:
+    build:
+      context: ./airflow
+    container_name: airflow-1
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./airflow/dags:/opt/airflow/dags
+      - ./airflow/logs:/opt/airflow/logs
+      - ./airflow/plugins:/opt/airflow/plugins
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+      AIRFLOW__CORE__FERNET_KEY: 'a_secure_fernet_key_here'
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'xSfAmgnoMRKd0S6Hin0Q6CTKFzxwfZgXf8Lt2oKOQO4='
+      AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+    depends_on:
+      - postgres
+    command: webserver
+
+volumes:
+  pgdata:
+  mongodata:
