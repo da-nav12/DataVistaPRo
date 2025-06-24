@@ -1,58 +1,60 @@
-# 📊 Student Performance Analysis – EDA + ETL Pipeline
+# 📊 DataVista Pro – Student Performance Analytics (EDA + ETL Pipeline)
 
-This project explores and transforms the **StudentPerformanceFactors.csv** dataset using Exploratory Data Analysis (EDA) and an ETL (Extract-Transform-Load) pipeline in Python. It helps uncover key insights from student data and prepares the dataset for future machine learning tasks.
-
----
-
-## 📁 Files Included
-
-- `StudentPerformanceFactors.csv`: Raw dataset
-- `EDA_and_ETL_Notebook.ipynb`: Jupyter Notebook containing full EDA + ETL process
-- `Transformed_StudentPerformance.csv`: Cleaned and preprocessed dataset
-- `README.md`: Project documentation (this file)
+**DataVista Pro** is a smart, modular analytics platform designed to process, analyze, and visualize student performance data in real-time or batch mode. This module focuses on performing **Exploratory Data Analysis (EDA)** and building an **ETL (Extract-Transform-Load)** pipeline using the `StudentPerformanceFactors.csv` dataset.
 
 ---
 
-## 🚦 Project Flow
+## 📁 Included Files
 
-### 🔍 Part 1: EDA (Exploratory Data Analysis)
+- `StudentPerformanceFactors.csv` – Raw input dataset
+- `EDA_and_ETL_Notebook.ipynb` – Jupyter notebook for full EDA + ETL workflow
+- `Transformed_StudentPerformance.csv` – Cleaned and transformed dataset ready for analytics/ML
+- `README.md` – Project documentation (this file)
 
-1. **Initial Inspection**
-   - Shape, info, summary stats
-   - Null values overview
+---
+
+## 🔁 DataVista Pro – Step 1: EDA + ETL Pipeline
+
+### 🔍 Part A: EDA (Exploratory Data Analysis)
+
+1. **Initial Exploration**
+   - Dataset shape, column data types
+   - Missing values check
+   - Descriptive statistics summary
 
 2. **Basic Visualizations**
-   - Bar plots
-   - Pie charts
-   - Histograms
-   - Line plots
-   - Scatter plots
+   - Bar plots for categorical distributions
+   - Pie charts for group comparisons
+   - Histograms & line plots for trends
+   - Scatter plots for relationships
 
-3. **Advanced Visualizations**
-   - Correlation heatmap
-   - Pair line plots for numeric features
-   - Categorical pie chart grid
+3. **Advanced Visuals**
+   - Correlation heatmap (numeric features)
+   - Pair plots for variable interactions
+   - Categorical variable pie chart grid
 
 ---
 
-### 🧪 Part 2: ETL (Extract, Transform, Load)
+### 🧪 Part B: ETL (Extract, Transform, Load)
 
 1. **Extract**
-   - Load raw data from CSV
+   - Load data from `StudentPerformanceFactors.csv` using `pandas`
 
 2. **Transform**
-   - Handle missing values (mean for numerics, mode for categoricals)
-   - Encode categorical features using `LabelEncoder`
-   - Standardize numeric features using `StandardScaler`
+   - Handle missing values:
+     - Numeric: filled using mean
+     - Categorical: filled using mode
+   - Encode categorical variables with `LabelEncoder`
+   - Standardize numeric columns with `StandardScaler`
 
 3. **Load**
-   - Export cleaned data to `Transformed_StudentPerformance.csv`
+   - Save final cleaned dataset to `Transformed_StudentPerformance.csv` for downstream ML & BI tasks
 
 ---
 
 ## 📦 Requirements
 
-Install dependencies using:
+To run the EDA + ETL pipeline locally, install the following packages:
 
 ```bash
 pip install pandas matplotlib seaborn scikit-learn
